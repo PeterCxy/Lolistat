@@ -44,7 +44,7 @@ public class ModLoli implements IXposedHookLoadPackage
 		final int[] theme = (int[]) internalThemeField.get(null);
 		final int theme_colorPrimaryDark = internalColorPrimaryDarkField.getInt(null);
 		
-		XposedHelpers.findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
+		XposedHelpers.findAndHookMethod(Activity.class, "onPostCreate", Bundle.class, new XC_MethodHook() {
 			@Override
 			protected void afterHookedMethod(XC_MethodHook.MethodHookParam mhparams) throws Throwable {
 				Activity activity = (Activity) mhparams.thisObject;
@@ -82,18 +82,11 @@ public class ModLoli implements IXposedHookLoadPackage
 				if (isDecor != null && isDecor) {
 					Canvas canvas = (Canvas) mhparams.args[0];
 					
-					Bitmap bitmap = (Bitmap) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "newBitmap");
-					Canvas newCanvas = (Canvas) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "newCanvas");
-					if (bitmap == null) {
-						bitmap = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);
-						newCanvas = new Canvas(bitmap);
-					} else {
-						bitmap.eraseColor(0);
-					}
+					Bitmap bitmap = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);
+					Canvas newCanvas = new Canvas(bitmap);
 					
 					mhparams.args[0] = newCanvas;
 					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "oldCanvas", canvas);
-					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "newCanvas", newCanvas);
 					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "newBitmap", bitmap);
 				}
 			}
@@ -121,6 +114,7 @@ public class ModLoli implements IXposedHookLoadPackage
 					int color = Utility.colorAverage(color1, color2, color3, color4, color5);
 					
 					window.setStatusBarColor(Utility.darkenColor(color, 0.85f));
+					newBitmap.recycle();
 					
 					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "isDecor", false);
 				}
