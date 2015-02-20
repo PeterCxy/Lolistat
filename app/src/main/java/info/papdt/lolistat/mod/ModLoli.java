@@ -93,7 +93,7 @@ public class ModLoli implements IXposedHookLoadPackage
 				if (isDecor != null && isDecor) {
 					Canvas canvas = (Canvas) mhparams.args[0];
 					
-					Bitmap bitmap = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);
+					Bitmap bitmap = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.RGB_565);
 					Canvas newCanvas = new Canvas(bitmap);
 					
 					mhparams.args[0] = newCanvas;
