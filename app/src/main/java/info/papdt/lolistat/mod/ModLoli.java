@@ -60,18 +60,29 @@ public class ModLoli implements IXposedHookLoadPackage
 				if (colorPrimaryDark != 0x00000000 && colorPrimaryDark != 0xff000000) return;
 				
 				final Window window = activity.getWindow();
-				final View decor = window.getDecorView();
 				
 				window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-				
-				decor.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-					@Override
-					public void onGlobalLayout() {
-						XposedHelpers.setAdditionalInstanceField(decor, "isDecor", true);
-						XposedHelpers.setAdditionalInstanceField(decor, "window", window);
-						decor.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-					}
-				});
+				XposedHelpers.setAdditionalInstanceField(activity, "shouldTint", true);
+			}
+		});
+		
+		XposedHelpers.findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
+			@Override
+			protected void afterHookedMethod(XC_MethodHook.MethodHookParam mhparams) throws Throwable {
+				Activity activity = (Activity) mhparams.thisObject;
+				Boolean shouldTint = (Boolean) XposedHelpers.getAdditionalInstanceField(activity, "shouldTint");
+				if (shouldTint != null && shouldTint) {
+					final Window window = activity.getWindow();
+					final View decor = window.getDecorView();
+					decor.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+						@Override
+						public void onGlobalLayout() {
+							XposedHelpers.setAdditionalInstanceField(decor, "isDecor", true);
+							XposedHelpers.setAdditionalInstanceField(decor, "window", window);
+							decor.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+						}
+					});
+				}
 			}
 		});
 		
