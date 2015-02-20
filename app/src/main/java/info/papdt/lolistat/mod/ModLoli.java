@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -58,13 +59,19 @@ public class ModLoli implements IXposedHookLoadPackage
 				
 				if (colorPrimaryDark != 0x00000000 && colorPrimaryDark != 0xff000000) return;
 				
-				Window window = activity.getWindow();
-				View decor = window.getDecorView();
+				final Window window = activity.getWindow();
+				final View decor = window.getDecorView();
 				
 				window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 				
-				XposedHelpers.setAdditionalInstanceField(decor, "isDecor", true);
-				XposedHelpers.setAdditionalInstanceField(decor, "window", window);
+				decor.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+					@Override
+					public void onGlobalLayout() {
+						XposedHelpers.setAdditionalInstanceField(decor, "isDecor", true);
+						XposedHelpers.setAdditionalInstanceField(decor, "window", window);
+						decor.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					}
+				});
 			}
 		});
 		
