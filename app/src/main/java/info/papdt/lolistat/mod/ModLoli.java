@@ -43,7 +43,7 @@ public class ModLoli implements IXposedHookLoadPackage
 		final int[] theme = (int[]) internalThemeField.get(null);
 		final int theme_colorPrimaryDark = internalColorPrimaryDarkField.getInt(null);
 		
-		XposedHelpers.findAndHookMethod(Activity.class, "onPostCreate", Bundle.class, new XC_MethodHook() {
+		XposedHelpers.findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
 			@Override
 			protected void afterHookedMethod(XC_MethodHook.MethodHookParam mhparams) throws Throwable {
 				Activity activity = (Activity) mhparams.thisObject;
@@ -104,12 +104,14 @@ public class ModLoli implements IXposedHookLoadPackage
 					
 					View v = (View) mhparams.thisObject;
 					
-					int statHeight = Utility.getStatusBarHeight(v.getContext()) + 1;
 					int width = v.getWidth();
+					int statHeight = Utility.getStatusBarHeight(v.getContext()) + 1;
 					int color1 = newBitmap.getPixel(width / 2, statHeight);
 					int color2 = newBitmap.getPixel(1, statHeight);
 					int color3 = newBitmap.getPixel(width - 1, statHeight);
-					int color = Utility.colorAverage(color1, color2, color3);
+					int color4 = newBitmap.getPixel(width / 4, statHeight);
+					int color5 = newBitmap.getPixel(width / 4 * 3, statHeight);
+					int color = Utility.colorAverage(color1, color2, color3, color4, color5);
 					
 					window.setStatusBarColor(Utility.darkenColor(color, 0.85f));
 					
