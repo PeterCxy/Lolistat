@@ -99,12 +99,25 @@ public class ModLoli implements IXposedHookLoadPackage
 				if (isDecor != null && isDecor) {
 					Canvas canvas = (Canvas) mhparams.args[0];
 					
-					Bitmap bitmap = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.RGB_565);
-					Canvas newCanvas = new Canvas(bitmap);
+					Bitmap newBitmap = (Bitmap) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "newBitmap");
+					Canvas newCanvas = (Canvas) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "newCanvas");
+					
+					if (newBitmap == null) {
+						newBitmap = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.RGB_565);
+						newBitmap.setDensity(((View) mhparams.thisObject).getResources().getDisplayMetrics().densityDpi);
+					}
+					
+					newBitmap.eraseColor(0);
+					
+					if (newCanvas == null) {
+						newCanvas = new Canvas();
+						newCanvas.setBitmap(newBitmap);
+					}
 					
 					mhparams.args[0] = newCanvas;
 					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "oldCanvas", canvas);
-					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "newBitmap", bitmap);
+					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "newBitmap", newBitmap);
+					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "newCanvas", newCanvas);
 				}
 			}
 			
@@ -131,9 +144,11 @@ public class ModLoli implements IXposedHookLoadPackage
 					int color = Utility.colorAverage(color1, color2, color3, color4, color5);
 					
 					window.setStatusBarColor(Utility.darkenColor(color, 0.85f));
-					newBitmap.recycle();
 					
 					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "isDecor", false);
+					
+					// We must mask the view as dirty, or we will never see it flush
+					v.invalidate();
 				}
 			}
 		});
