@@ -69,8 +69,23 @@ public class ModLoli implements IXposedHookLoadPackage
 				if (colorPrimaryDark != 0x00000000 && colorPrimaryDark != 0xff000000) return;
 				
 				final Window window = activity.getWindow();
+				int flags = window.getAttributes().flags;
+				
+				if (((flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) != 0)
+					|| ((flags & WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS) != 0)) {
+					
+					return;
+				}
 				
 				window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+				
+				View decor = window.getDecorView();
+				int sysui = decor.findViewById(android.R.id.content).getSystemUiVisibility();
+				
+				if ((sysui & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0) {
+					return;
+				}
+				
 				XposedHelpers.setAdditionalInstanceField(activity, "shouldTint", true);
 			}
 		});
@@ -92,6 +107,7 @@ public class ModLoli implements IXposedHookLoadPackage
 							if (now - last >= MIN_BREAK) {
 								XposedHelpers.setAdditionalInstanceField(decor, "isDecor", true);
 								XposedHelpers.setAdditionalInstanceField(decor, "window", window);
+								decor.invalidate();
 								last = now;
 							}
 							//decor.getViewTreeObserver().removeGlobalOnLayoutListener(this);
