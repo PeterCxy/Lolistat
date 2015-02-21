@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ColorDrawable;
@@ -22,6 +23,7 @@ import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import info.papdt.lolistat.support.Utility;
 import static info.papdt.lolistat.BuildConfig.DEBUG;
@@ -29,6 +31,7 @@ import static info.papdt.lolistat.BuildConfig.DEBUG;
 public class ModLoli implements IXposedHookLoadPackage
 {
 	private static final String TAG = ModLoli.class.getSimpleName() + ":";
+	private static final long MIN_BREAK = 5000;
 
 	@Override
 	public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
@@ -81,11 +84,17 @@ public class ModLoli implements IXposedHookLoadPackage
 					final Window window = activity.getWindow();
 					final View decor = window.getDecorView();
 					decor.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+						long last = 0;
 						@Override
 						public void onGlobalLayout() {
-							XposedHelpers.setAdditionalInstanceField(decor, "isDecor", true);
-							XposedHelpers.setAdditionalInstanceField(decor, "window", window);
-							decor.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+							long now = System.currentTimeMillis();
+							
+							if (now - last >= MIN_BREAK) {
+								XposedHelpers.setAdditionalInstanceField(decor, "isDecor", true);
+								XposedHelpers.setAdditionalInstanceField(decor, "window", window);
+								last = now;
+							}
+							//decor.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 						}
 					});
 				}
@@ -107,7 +116,7 @@ public class ModLoli implements IXposedHookLoadPackage
 						newBitmap.setDensity(((View) mhparams.thisObject).getResources().getDisplayMetrics().densityDpi);
 					}
 					
-					newBitmap.eraseColor(0);
+					newBitmap.eraseColor(Color.BLACK);
 					
 					if (newCanvas == null) {
 						newCanvas = new Canvas();
@@ -128,8 +137,8 @@ public class ModLoli implements IXposedHookLoadPackage
 					Window window = (Window) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "window");
 					Canvas oldCanvas = (Canvas) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "oldCanvas");
 					Bitmap newBitmap = (Bitmap) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "newBitmap");
-					Paint p = new Paint();
-					oldCanvas.drawBitmap(newBitmap, 0, 0, p);
+					//Paint p = new Paint();
+					//oldCanvas.drawBitmap(newBitmap, 0, 0, p);
 					mhparams.args[0] = oldCanvas;
 					
 					View v = (View) mhparams.thisObject;
@@ -148,7 +157,7 @@ public class ModLoli implements IXposedHookLoadPackage
 					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "isDecor", false);
 					
 					// We must mask the view as dirty, or we will never see it flush
-					v.invalidate();
+					((Method) mhparams.method).invoke(mhparams.thisObject, oldCanvas);
 				}
 			}
 		});
