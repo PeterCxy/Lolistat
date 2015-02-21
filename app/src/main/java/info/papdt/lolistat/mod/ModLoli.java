@@ -32,7 +32,13 @@ public class ModLoli implements IXposedHookLoadPackage
 
 	@Override
 	public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-		if (lpparam.packageName.startsWith("com.android")) return;
+		if (lpparam.packageName.startsWith("com.android")) {
+			if (lpparam.packageName.equals("com.android.systemui")) {
+				ModSystemUI.hookSystemUI(lpparam.classLoader);
+			}
+			
+			return;
+		}
 		
 		if (DEBUG) {
 			XposedBridge.log(TAG + "Loaded package " + lpparam.packageName);
