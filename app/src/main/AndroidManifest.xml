@@ -11,7 +11,7 @@
 			android:value="true"/>
 		<meta-data
 			android:name="xposeddescription"
-			android:value="Change the status bar color on Lollipop to match apps that do not define colorPrimaryDark"/>
+			android:value="Hack to match the status bar style on Lollipop to match app"/>
 		<meta-data
 			android:name="xposedminversion"
 			android:value="30"/>
