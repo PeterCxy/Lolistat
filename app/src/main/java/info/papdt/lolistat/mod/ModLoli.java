@@ -31,7 +31,7 @@ import static info.papdt.lolistat.BuildConfig.DEBUG;
 public class ModLoli implements IXposedHookLoadPackage
 {
 	private static final String TAG = ModLoli.class.getSimpleName() + ":";
-	private static final long MIN_BREAK = 5000;
+	private static final long MIN_BREAK = 2000;
 
 	@Override
 	public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
@@ -71,8 +71,7 @@ public class ModLoli implements IXposedHookLoadPackage
 				final Window window = activity.getWindow();
 				int flags = window.getAttributes().flags;
 				
-				if (((flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) != 0)
-					|| ((flags & WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS) != 0)) {
+				if ((flags & WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS) != 0) {
 					
 					return;
 				}
@@ -85,6 +84,8 @@ public class ModLoli implements IXposedHookLoadPackage
 				if ((sysui & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0) {
 					return;
 				}
+				
+				decor.setDrawingCacheEnabled(false);
 				
 				XposedHelpers.setAdditionalInstanceField(activity, "shouldTint", true);
 			}
