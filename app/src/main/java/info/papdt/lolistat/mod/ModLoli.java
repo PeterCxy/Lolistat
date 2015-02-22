@@ -32,6 +32,7 @@ public class ModLoli implements IXposedHookLoadPackage
 {
 	private static final String TAG = ModLoli.class.getSimpleName() + ":";
 	private static final long MIN_BREAK = 2000;
+	private static int STATUS_HEIGHT = 0;
 
 	@Override
 	public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
@@ -128,12 +129,13 @@ public class ModLoli implements IXposedHookLoadPackage
 					Bitmap newBitmap = (Bitmap) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "newBitmap");
 					Canvas newCanvas = (Canvas) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "newCanvas");
 					
-					if (newBitmap == null) {
-						newBitmap = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.RGB_565);
-						newBitmap.setDensity(((View) mhparams.thisObject).getResources().getDisplayMetrics().densityDpi);
-					}
+					View v = (View) mhparams.thisObject;
 					
-					newBitmap.eraseColor(Color.BLACK);
+					if (newBitmap == null) {
+						newBitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_4444);
+						newBitmap.setHasAlpha(false);
+						newBitmap.setDensity(((View) mhparams.thisObject).getResources().getDisplayMetrics().densityDpi / 6);
+					}
 					
 					if (newCanvas == null) {
 						newCanvas = new Canvas();
@@ -154,19 +156,21 @@ public class ModLoli implements IXposedHookLoadPackage
 					Window window = (Window) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "window");
 					Canvas oldCanvas = (Canvas) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "oldCanvas");
 					Bitmap newBitmap = (Bitmap) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "newBitmap");
-					//Paint p = new Paint();
-					//oldCanvas.drawBitmap(newBitmap, 0, 0, p);
 					mhparams.args[0] = oldCanvas;
 					
 					View v = (View) mhparams.thisObject;
 					
 					int width = v.getWidth();
-					int statHeight = Utility.getStatusBarHeight(v.getContext()) + 1;
-					int color1 = newBitmap.getPixel(width / 2, statHeight);
-					int color2 = newBitmap.getPixel(1, statHeight);
-					int color3 = newBitmap.getPixel(width - 1, statHeight);
-					int color4 = newBitmap.getPixel(width / 4, statHeight);
-					int color5 = newBitmap.getPixel(width / 4 * 3, statHeight);
+					
+					if (STATUS_HEIGHT == 0) {
+						STATUS_HEIGHT = Utility.getStatusBarHeight(v.getContext()) + 1;
+					}
+					
+					int color1 = newBitmap.getPixel(width / 2, STATUS_HEIGHT);
+					int color2 = newBitmap.getPixel(1, STATUS_HEIGHT);
+					int color3 = newBitmap.getPixel(width - 1, STATUS_HEIGHT);
+					int color4 = newBitmap.getPixel(width / 4, STATUS_HEIGHT);
+					int color5 = newBitmap.getPixel(width / 4 * 3, STATUS_HEIGHT);
 					int color = Utility.colorAverage(color1, color2, color3, color4, color5);
 					
 					window.setStatusBarColor(Utility.darkenColor(color, 0.85f));
