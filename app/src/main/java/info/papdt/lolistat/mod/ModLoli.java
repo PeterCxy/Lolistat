@@ -131,10 +131,15 @@ public class ModLoli implements IXposedHookLoadPackage
 					
 					View v = (View) mhparams.thisObject;
 					
+					if (STATUS_HEIGHT == 0) {
+						STATUS_HEIGHT = Utility.getStatusBarHeight(v.getContext()) + 1;
+					}
+					
 					if (newBitmap == null) {
-						newBitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_4444);
+						// We only crop the top part of the view.
+						newBitmap = Bitmap.createBitmap(v.getWidth(), STATUS_HEIGHT + 1, Bitmap.Config.ARGB_4444);
 						newBitmap.setHasAlpha(false);
-						newBitmap.setDensity(((View) mhparams.thisObject).getResources().getDisplayMetrics().densityDpi / 6);
+						newBitmap.setDensity(canvas.getDensity() / 2);
 					}
 					
 					if (newCanvas == null) {
@@ -161,10 +166,6 @@ public class ModLoli implements IXposedHookLoadPackage
 					View v = (View) mhparams.thisObject;
 					
 					int width = v.getWidth();
-					
-					if (STATUS_HEIGHT == 0) {
-						STATUS_HEIGHT = Utility.getStatusBarHeight(v.getContext()) + 1;
-					}
 					
 					int color1 = newBitmap.getPixel(width / 2, STATUS_HEIGHT);
 					int color2 = newBitmap.getPixel(1, STATUS_HEIGHT);
