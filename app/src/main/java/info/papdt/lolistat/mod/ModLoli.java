@@ -139,7 +139,7 @@ public class ModLoli implements IXposedHookLoadPackage
 						// We only crop the top part of the view.
 						newBitmap = Bitmap.createBitmap(v.getWidth(), STATUS_HEIGHT + 1, Bitmap.Config.ARGB_4444);
 						newBitmap.setHasAlpha(false);
-						newBitmap.setDensity(canvas.getDensity() / 2);
+						newBitmap.setDensity(canvas.getDensity());
 					}
 					
 					if (newCanvas == null) {
