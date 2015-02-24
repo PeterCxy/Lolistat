@@ -59,6 +59,11 @@ public class ModLoli implements IXposedHookLoadPackage
 			protected void afterHookedMethod(XC_MethodHook.MethodHookParam mhparams) throws Throwable {
 				Activity activity = (Activity) mhparams.thisObject;
 				
+				// Ignore floating activities
+				int isFloating = XposedHelpers.getStaticIntField(XposedHelpers.findClass("com.android.internal.R.styleable", null), "Window_windowIsFloating");
+				if (activity.getWindow().getWindowStyle().getBoolean(isFloating, false))
+					return;
+				
 				// Ignore if launcher
 				if (Utility.isLauncher(activity, lpparam.packageName)) return;
 				
