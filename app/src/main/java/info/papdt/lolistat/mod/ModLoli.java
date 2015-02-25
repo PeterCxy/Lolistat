@@ -91,8 +91,6 @@ public class ModLoli implements IXposedHookLoadPackage
 					return;
 				}
 				
-				decor.setDrawingCacheEnabled(false);
-				
 				XposedHelpers.setAdditionalInstanceField(activity, "shouldTint", true);
 			}
 		});
