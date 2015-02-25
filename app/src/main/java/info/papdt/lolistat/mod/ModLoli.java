@@ -122,6 +122,30 @@ public class ModLoli implements IXposedHookLoadPackage
 			}
 		});
 		
+		XposedHelpers.findAndHookMethod(Activity.class, "onPause", new XC_MethodHook() {
+			@Override
+			protected void afterHookedMethod(XC_MethodHook.MethodHookParam mhparams) throws Throwable {
+				Activity activity = (Activity) mhparams.thisObject;
+				Boolean shouldTint = (Boolean) XposedHelpers.getAdditionalInstanceField(activity, "shouldTint");
+				if (shouldTint != null && shouldTint) {
+					final View decor = activity.getWindow().getDecorView();
+					Bitmap newBitmap = (Bitmap) XposedHelpers.getAdditionalInstanceField(decor, "newBitmap");
+					Canvas newCanvas = (Canvas) XposedHelpers.getAdditionalInstanceField(decor, "newCanvas");
+					
+					if (newCanvas != null) {
+						newCanvas.setBitmap(null);
+					}
+					
+					if (newBitmap != null) {
+						newBitmap.recycle();
+					}
+					
+					XposedHelpers.setAdditionalInstanceField(decor, "newBitmap", null);
+					XposedHelpers.setAdditionalInstanceField(decor, "newCanvas", null);
+				}
+			}
+		});
+		
 		XposedHelpers.findAndHookMethod(View.class, "draw", Canvas.class, new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(XC_MethodHook.MethodHookParam mhparams) throws Throwable {
