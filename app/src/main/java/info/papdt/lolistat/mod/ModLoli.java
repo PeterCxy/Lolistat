@@ -51,8 +51,10 @@ public class ModLoli implements IXposedHookLoadPackage
 		final Class<?> internalStyleable = XposedHelpers.findClass("com.android.internal.R.styleable", lpparam.classLoader);
 		final Field internalThemeField = XposedHelpers.findField(internalStyleable, "Theme");
 		final Field internalColorPrimaryDarkField = XposedHelpers.findField(internalStyleable, "Theme_colorPrimaryDark");
+		final Field internalTranslucentStatusField = XposedHelpers.findField(internalStyleable, "Theme_windowTranslucentStatus");
 		final int[] theme = (int[]) internalThemeField.get(null);
 		final int theme_colorPrimaryDark = internalColorPrimaryDarkField.getInt(null);
+		final int theme_translucentStatus = internalTranslucentStatusField.get(null);
 		
 		XposedHelpers.findAndHookMethod(Activity.class, "onPostCreate", Bundle.class, new XC_MethodHook() {
 			@Override
@@ -63,6 +65,11 @@ public class ModLoli implements IXposedHookLoadPackage
 				int isFloating = XposedHelpers.getStaticIntField(XposedHelpers.findClass("com.android.internal.R.styleable", null), "Window_windowIsFloating");
 				if (activity.getWindow().getWindowStyle().getBoolean(isFloating, false))
 					return;
+					
+				// Ignore translucent activities
+				int isTranslucent = XposedHelpers.getStaticIntField(XposedHelpers.findClass("com.android.internal.R.styleable", null), "Window_windowTranslucentStatus");
+				if (activity.getWindow().getWindowStyle().getBoolean(isTranslucent, false))
+					return;
 				
 				// Ignore if launcher
 				if (Utility.isLauncher(activity, lpparam.packageName)) return;
@@ -70,14 +77,18 @@ public class ModLoli implements IXposedHookLoadPackage
 				// Ignore if have defined colorPrimaryDark already
 				TypedArray a = activity.getTheme().obtainStyledAttributes(theme);
 				int colorPrimaryDark = a.getColor(theme_colorPrimaryDark, 0x00000000);
+				boolean translucentStatus = a.getBoolean(theme_translucentStatus, false);
 				a.recycle();
 				
 				if (colorPrimaryDark != 0x00000000 && colorPrimaryDark != 0xff000000) return;
+				if (translucentStatus) return;
 				
 				final Window window = activity.getWindow();
 				int flags = window.getAttributes().flags;
 				
-				if ((flags & WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS) != 0) {
+				if ((flags & WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS) != 0 ||
+					((flags & WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS) != 0 &&
+						window.getStatusBarColor() != Color.BLACK)) {
 					
 					return;
 				}
@@ -87,7 +98,9 @@ public class ModLoli implements IXposedHookLoadPackage
 				View decor = window.getDecorView();
 				int sysui = decor.findViewById(android.R.id.content).getSystemUiVisibility();
 				
-				if ((sysui & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0) {
+				if ((sysui & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0 ||
+					(sysui & View.SYSTEM_UI_FLAG_IMMERSIVE) != 0 ||
+					(sysui & View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY) != 0) {
 					return;
 				}
 				
