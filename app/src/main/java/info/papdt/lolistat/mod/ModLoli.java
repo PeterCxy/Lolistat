@@ -227,8 +227,9 @@ public class ModLoli implements IXposedHookLoadPackage
 					int color5 = newBitmap.getPixel(width / 4 * 3, STATUS_HEIGHT);
 					int color = Utility.colorAverage(color1, color2, color3, color4, color5);
 					
-					window.setStatusBarColor(Utility.darkenColor(color, 0.85f));
-					window.setNavigationBarColor(color);
+					int dark = Utility.darkenColor(color, 0.8f);
+					window.setStatusBarColor(dark);
+					window.setNavigationBarColor(dark);
 					
 					// Color in recents
 					Activity activity = (Activity) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "activity");
