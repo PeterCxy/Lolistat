@@ -39,12 +39,8 @@ public class ModLoli implements IXposedHookLoadPackage
 
 	@Override
 	public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-		if (lpparam.packageName.startsWith("com.android")) {
-			if (lpparam.packageName.equals("com.android.systemui")) {
-				ModSystemUI.hookSystemUI(lpparam.classLoader);
-			}
-			
-			return;
+		if (lpparam.packageName.equals("com.android.systemui")) {
+			ModSystemUI.hookSystemUI(lpparam.classLoader);
 		}
 		
 		if (DEBUG) {
@@ -83,7 +79,11 @@ public class ModLoli implements IXposedHookLoadPackage
 				boolean translucentStatus = a.getBoolean(theme_translucentStatus, false);
 				a.recycle();
 				
-				if (colorPrimaryDark != 0x00000000 && colorPrimaryDark != 0xff000000) return;
+				if (colorPrimaryDark != 0x00000000 && colorPrimaryDark != 0xff000000) {
+					activity.getWindow().setNavigationBarColor(colorPrimaryDark);
+					return;
+				}
+				
 				if (translucentStatus) return;
 				
 				final Window window = activity.getWindow();
@@ -228,6 +228,7 @@ public class ModLoli implements IXposedHookLoadPackage
 					int color = Utility.colorAverage(color1, color2, color3, color4, color5);
 					
 					window.setStatusBarColor(Utility.darkenColor(color, 0.85f));
+					window.setNavigationBarColor(color);
 					
 					// Color in recents
 					Activity activity = (Activity) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "activity");
