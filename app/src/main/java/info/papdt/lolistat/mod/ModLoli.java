@@ -245,6 +245,7 @@ public class ModLoli implements IXposedHookLoadPackage
 					
 					// We must mask the view as dirty, or we will never see it flush
 					((Method) mhparams.method).invoke(mhparams.thisObject, oldCanvas);
+					v.invalidate();
 				}
 			}
 		});
