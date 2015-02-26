@@ -93,16 +93,16 @@ public class ModLoli implements IXposedHookLoadPackage
 					return;
 				}
 				
-				window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-				
 				View decor = window.getDecorView();
 				int sysui = decor.findViewById(android.R.id.content).getSystemUiVisibility();
-				
+
 				if ((sysui & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0 ||
 					(sysui & View.SYSTEM_UI_FLAG_IMMERSIVE) != 0 ||
 					(sysui & View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY) != 0) {
 					return;
 				}
+				
+				window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 				
 				XposedHelpers.setAdditionalInstanceField(activity, "shouldTint", true);
 			}
