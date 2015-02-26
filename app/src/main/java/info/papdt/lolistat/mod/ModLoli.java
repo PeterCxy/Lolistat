@@ -1,6 +1,7 @@
 package info.papdt.lolistat.mod;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -116,6 +117,7 @@ public class ModLoli implements IXposedHookLoadPackage
 				layout.setFitsSystemWindows(true);
 				
 				XposedHelpers.setAdditionalInstanceField(activity, "shouldTint", true);
+				XposedHelpers.setAdditionalInstanceField(decor, "activity", activity);
 			}
 		});
 		
@@ -226,6 +228,11 @@ public class ModLoli implements IXposedHookLoadPackage
 					int color = Utility.colorAverage(color1, color2, color3, color4, color5);
 					
 					window.setStatusBarColor(Utility.darkenColor(color, 0.85f));
+					
+					// Color in recents
+					Activity activity = (Activity) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "activity");
+					ActivityManager.TaskDescription des = new ActivityManager.TaskDescription(null, null, color);
+					activity.setTaskDescription(des);
 					
 					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "isDecor", false);
 					
