@@ -2,6 +2,10 @@ Description
 ---
 This is an Xposed module. It is aimed to "fix" the style of some apps on Lollipop by matching the color of status bar with the app.
 
+Building
+---
+The module is originally developed by AIDE (IDE running on Android), if you want to build with Android Studio, you should replace the XposedBridgeApi.jar with the one provided by rovo89 and then change the "compile" in build.gradle to "provided"
+
 License
 ---
 
