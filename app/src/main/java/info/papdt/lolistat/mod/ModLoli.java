@@ -11,9 +11,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XposedBridge;
@@ -93,7 +95,7 @@ public class ModLoli implements IXposedHookLoadPackage
 					return;
 				}
 				
-				View decor = window.getDecorView();
+				ViewGroup decor = (ViewGroup) window.getDecorView();
 				int sysui = decor.findViewById(android.R.id.content).getSystemUiVisibility();
 
 				if ((sysui & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0 ||
@@ -103,6 +105,15 @@ public class ModLoli implements IXposedHookLoadPackage
 				}
 				
 				window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+				
+				// HACK: Steal root layout to fit system windows
+				View child = decor.getChildAt(0);
+				FrameLayout layout = new FrameLayout(decor.getContext());
+				layout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+				decor.removeView(child);
+				layout.addView(child);
+				decor.addView(layout);
+				layout.setFitsSystemWindows(true);
 				
 				XposedHelpers.setAdditionalInstanceField(activity, "shouldTint", true);
 			}
