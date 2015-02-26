@@ -226,15 +226,20 @@ public class ModLoli implements IXposedHookLoadPackage
 					int color4 = newBitmap.getPixel(width / 4, STATUS_HEIGHT);
 					int color5 = newBitmap.getPixel(width / 4 * 3, STATUS_HEIGHT);
 					int color = Utility.colorAverage(color1, color2, color3, color4, color5);
+					Integer colorLast = (Integer) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "lastColor");
 					
-					int dark = Utility.darkenColor(color, 0.8f);
-					window.setStatusBarColor(dark);
-					window.setNavigationBarColor(dark);
-					
-					// Color in recents
-					Activity activity = (Activity) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "activity");
-					ActivityManager.TaskDescription des = new ActivityManager.TaskDescription(null, null, color);
-					activity.setTaskDescription(des);
+					if (colorLast == null || color != colorLast.intValue()) {
+						int dark = Utility.darkenColor(color, 0.8f);
+						window.setStatusBarColor(dark);
+						window.setNavigationBarColor(dark);
+						
+						// Color in recents
+						Activity activity = (Activity) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "activity");
+						ActivityManager.TaskDescription des = new ActivityManager.TaskDescription(null, null, color);
+						activity.setTaskDescription(des);
+						
+						XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "lastColor", color);
+					}
 					
 					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "isDecor", false);
 					
