@@ -138,7 +138,7 @@ public class ModLoli implements IXposedHookLoadPackage
 							if (now - last >= MIN_BREAK) {
 								XposedHelpers.setAdditionalInstanceField(decor, "isDecor", true);
 								XposedHelpers.setAdditionalInstanceField(decor, "window", window);
-								decor.invalidate();
+								decor.postInvalidate();
 								last = now;
 							}
 							//decor.getViewTreeObserver().removeGlobalOnLayoutListener(this);
@@ -245,6 +245,7 @@ public class ModLoli implements IXposedHookLoadPackage
 					
 					// We must mask the view as dirty, or we will never see it flush
 					((Method) mhparams.method).invoke(mhparams.thisObject, oldCanvas);
+					v.postInvalidate();
 				}
 			}
 		});
