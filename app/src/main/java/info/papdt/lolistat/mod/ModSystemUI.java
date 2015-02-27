@@ -33,7 +33,7 @@ public class ModSystemUI
 					}
 					
 					Drawable d = (Drawable) mhparams.args[0];
-					d.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+					d.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
 				}
 			}
 		});
