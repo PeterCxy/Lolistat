@@ -214,7 +214,6 @@ public class ModLoli implements IXposedHookLoadPackage
 					Window window = (Window) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "window");
 					Canvas oldCanvas = (Canvas) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "oldCanvas");
 					Bitmap newBitmap = (Bitmap) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "newBitmap");
-					mhparams.args[0] = oldCanvas;
 					
 					View v = (View) mhparams.thisObject;
 					
