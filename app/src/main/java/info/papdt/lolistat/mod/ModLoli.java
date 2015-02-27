@@ -138,7 +138,7 @@ public class ModLoli implements IXposedHookLoadPackage
 							if (now - last >= MIN_BREAK) {
 								XposedHelpers.setAdditionalInstanceField(decor, "isDecor", true);
 								XposedHelpers.setAdditionalInstanceField(decor, "window", window);
-								decor.postInvalidate();
+								//decor.postInvalidate();
 								last = now;
 							}
 							//decor.getViewTreeObserver().removeGlobalOnLayoutListener(this);
@@ -174,48 +174,39 @@ public class ModLoli implements IXposedHookLoadPackage
 		
 		XposedHelpers.findAndHookMethod(View.class, "draw", Canvas.class, new XC_MethodHook() {
 			@Override
-			protected void beforeHookedMethod(XC_MethodHook.MethodHookParam mhparams) throws Throwable {
+			protected void afterHookedMethod(XC_MethodHook.MethodHookParam mhparams) throws Throwable {
 				Boolean isDecor = (Boolean) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "isDecor");
 				if (isDecor != null && isDecor) {
-					Canvas canvas = (Canvas) mhparams.args[0];
 					
+					Canvas canvas = (Canvas) mhparams.args[0];
+
 					Bitmap newBitmap = (Bitmap) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "newBitmap");
 					Canvas newCanvas = (Canvas) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "newCanvas");
-					
+
 					View v = (View) mhparams.thisObject;
-					
+
 					if (STATUS_HEIGHT == 0) {
 						STATUS_HEIGHT = Utility.getStatusBarHeight(v.getContext()) + 1;
 					}
-					
+
 					if (newBitmap == null) {
 						// We only crop the top part of the view.
 						newBitmap = Bitmap.createBitmap(v.getWidth(), STATUS_HEIGHT + 1, Bitmap.Config.ARGB_4444);
 						newBitmap.setHasAlpha(false);
 						newBitmap.setDensity(canvas.getDensity());
 					}
-					
+
 					if (newCanvas == null) {
 						newCanvas = new Canvas();
 						newCanvas.setBitmap(newBitmap);
 					}
 					
-					mhparams.args[0] = newCanvas;
-					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "oldCanvas", canvas);
-					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "newBitmap", newBitmap);
-					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "newCanvas", newCanvas);
-				}
-			}
-			
-			@Override
-			protected void afterHookedMethod(XC_MethodHook.MethodHookParam mhparams) throws Throwable {
-				Boolean isDecor = (Boolean) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "isDecor");
-				if (isDecor != null && isDecor) {
-					Window window = (Window) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "window");
-					Canvas oldCanvas = (Canvas) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "oldCanvas");
-					Bitmap newBitmap = (Bitmap) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "newBitmap");
+					// Get an image of the view
+					// Do not use the "getDrawingCache" because
+					// We do not need image of the entire view.
+					((Method) mhparams.method).invoke(mhparams.thisObject, newCanvas);
 					
-					View v = (View) mhparams.thisObject;
+					Window window = (Window) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "window");
 					
 					int width = v.getWidth();
 					
@@ -242,9 +233,12 @@ public class ModLoli implements IXposedHookLoadPackage
 					
 					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "isDecor", false);
 					
+					//XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "oldCanvas", canvas);
+					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "newBitmap", newBitmap);
+					XposedHelpers.setAdditionalInstanceField(mhparams.thisObject, "newCanvas", newCanvas);
+					
 					// We must mask the view as dirty, or we will never see it flush
-					((Method) mhparams.method).invoke(mhparams.thisObject, oldCanvas);
-					v.postInvalidate();
+					v.invalidate();
 				}
 			}
 		});
