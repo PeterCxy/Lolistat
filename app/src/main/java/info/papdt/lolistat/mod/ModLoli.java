@@ -58,7 +58,7 @@ public class ModLoli implements IXposedHookLoadPackage
 		final Field internalTranslucentStatusField = XposedHelpers.findField(internalStyleable, "Theme_windowTranslucentStatus");
 		final int[] theme = (int[]) internalThemeField.get(null);
 		final int theme_colorPrimaryDark = internalColorPrimaryDarkField.getInt(null);
-		final int theme_translucentStatus = internalTranslucentStatusField.get(null);
+		final int theme_translucentStatus = internalTranslucentStatusField.getInt(null);
 		
 		XposedHelpers.findAndHookMethod(Activity.class, "onPostCreate", Bundle.class, new XC_MethodHook() {
 			@Override
