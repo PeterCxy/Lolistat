@@ -41,6 +41,7 @@ public class ModLoli implements IXposedHookLoadPackage
 	public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
 		if (lpparam.packageName.equals("com.android.systemui")) {
 			ModSystemUI.hookSystemUI(lpparam.classLoader);
+			return;
 		}
 		
 		ModNavigationBar.hookNavigationBar(lpparam.classLoader);
