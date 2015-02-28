@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<CheckBoxPreference
+		android:key="tint_navigation"
+		android:title="@string/tint_navigation"
+		android:checked="true"/>
+</PreferenceScreen>

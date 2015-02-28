@@ -2,5 +2,8 @@
 <resources>
 
     <string name="app_name">Lolistat</string>
+	
+	<!-- Settings -->
+	<string name="tint_navigation">Tint Navigation Bar</string>
 
 </resources>

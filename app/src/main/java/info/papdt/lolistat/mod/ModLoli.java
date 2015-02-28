@@ -28,6 +28,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import info.papdt.lolistat.support.Settings;
 import info.papdt.lolistat.support.Utility;
 import static info.papdt.lolistat.BuildConfig.DEBUG;
 
@@ -39,6 +40,7 @@ public class ModLoli implements IXposedHookLoadPackage
 
 	@Override
 	public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+		Settings.init();
 		if (lpparam.packageName.equals("com.android.systemui")) {
 			ModSystemUI.hookSystemUI(lpparam.classLoader);
 			return;
