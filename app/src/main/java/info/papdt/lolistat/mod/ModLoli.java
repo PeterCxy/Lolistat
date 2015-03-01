@@ -35,7 +35,7 @@ import static info.papdt.lolistat.BuildConfig.DEBUG;
 public class ModLoli implements IXposedHookLoadPackage
 {
 	private static final String TAG = ModLoli.class.getSimpleName() + ":";
-	private static final long MIN_BREAK = 2000;
+	private static final long MIN_BREAK = 500;
 	private static int STATUS_HEIGHT = 0;
 
 	@Override
