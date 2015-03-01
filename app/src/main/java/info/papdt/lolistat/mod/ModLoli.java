@@ -110,13 +110,16 @@ public class ModLoli implements IXposedHookLoadPackage
 				window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 				
 				// HACK: Steal root layout to fit system windows
-				View child = decor.getChildAt(0);
-				FrameLayout layout = new FrameLayout(decor.getContext());
-				layout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-				decor.removeView(child);
-				layout.addView(child);
-				decor.addView(layout);
-				layout.setFitsSystemWindows(true);
+				// But we do not need to worry about fullscreen windows
+				if ((flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == 0) {
+					View child = decor.getChildAt(0);
+					FrameLayout layout = new FrameLayout(decor.getContext());
+					layout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+					decor.removeView(child);
+					layout.addView(child);
+					decor.addView(layout);
+					layout.setFitsSystemWindows(true);
+				}
 				
 				XposedHelpers.setAdditionalInstanceField(activity, "shouldTint", true);
 				XposedHelpers.setAdditionalInstanceField(decor, "activity", activity);
@@ -138,6 +141,7 @@ public class ModLoli implements IXposedHookLoadPackage
 							
 							int flags = window.getAttributes().flags;
 							
+							// We do the check here, because activities may change their layout params
 							if ((flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) != 0)
 								return;
 							
