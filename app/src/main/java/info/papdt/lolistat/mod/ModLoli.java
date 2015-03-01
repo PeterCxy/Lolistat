@@ -180,6 +180,9 @@ public class ModLoli implements IXposedHookLoadPackage
 			protected void afterHookedMethod(XC_MethodHook.MethodHookParam mhparams) throws Throwable {
 				Boolean isDecor = (Boolean) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "isDecor");
 				if (isDecor != null && isDecor) {
+					Activity activity = (Activity) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "activity");
+					
+					if (activity.getActionBar() != null && !activity.getActionBar().isShowing()) return;
 					
 					Canvas canvas = (Canvas) mhparams.args[0];
 
@@ -226,7 +229,6 @@ public class ModLoli implements IXposedHookLoadPackage
 						window.setStatusBarColor(dark);
 						
 						// Color in recents
-						Activity activity = (Activity) XposedHelpers.getAdditionalInstanceField(mhparams.thisObject, "activity");
 						ActivityManager.TaskDescription des = new ActivityManager.TaskDescription(null, null, color);
 						activity.setTaskDescription(des);
 						
