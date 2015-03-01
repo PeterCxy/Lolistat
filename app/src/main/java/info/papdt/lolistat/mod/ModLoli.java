@@ -92,6 +92,7 @@ public class ModLoli implements IXposedHookLoadPackage
 				int flags = window.getAttributes().flags;
 				
 				if ((flags & WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS) != 0 ||
+					(flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) != 0 ||
 					((flags & WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS) != 0 &&
 						activity.getWindow().getStatusBarColor() != Color.TRANSPARENT)) {
 					
