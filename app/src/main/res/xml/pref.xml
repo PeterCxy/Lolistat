@@ -4,4 +4,10 @@
 		android:key="tint_navigation"
 		android:title="@string/tint_navigation"
 		android:checked="true"/>
+	
+	<CheckBoxPreference
+		android:key="tint_icons"
+		android:title="@string/tint_icons"
+		android:checked="true"/>
+	
 </PreferenceScreen>

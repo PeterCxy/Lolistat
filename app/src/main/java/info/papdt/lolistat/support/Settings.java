@@ -9,6 +9,7 @@ public class Settings
 {
 	
 	public static final String PREF_TINT_NAVIGATION = "tint_navigation";
+	public static final String PREF_TINT_ICONS = "tint_icons";
 	
 	private static final String PREF = "pref";
 	private static SharedPreferences sPref;

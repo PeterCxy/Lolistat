@@ -14,6 +14,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 	private Settings mSettings;
 	
 	private CheckBoxPreference mTintNav;
+	private CheckBoxPreference mTintIcons;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -25,12 +26,18 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 		mTintNav = (CheckBoxPreference) findPreference(Settings.PREF_TINT_NAVIGATION);
 		mTintNav.setChecked(mSettings.getBoolean(Settings.PREF_TINT_NAVIGATION, true));
 		mTintNav.setOnPreferenceChangeListener(this);
+		
+		mTintIcons = (CheckBoxPreference) findPreference(Settings.PREF_TINT_ICONS);
+		mTintIcons.setChecked(mSettings.getBoolean(Settings.PREF_TINT_ICONS, true));
+		mTintIcons.setOnPreferenceChangeListener(this);
 	}
 
 	@Override
 	public boolean onPreferenceChange(Preference pref, Object newValue) {
 		if (pref == mTintNav) {
 			mSettings.putBoolean(Settings.PREF_TINT_NAVIGATION, Boolean.valueOf(newValue));
+		} else if (pref == mTintIcons) {
+			mSettings.putBoolean(Settings.PREF_TINT_ICONS, Boolean.valueOf(newValue));
 		}
 		return true;
 	}

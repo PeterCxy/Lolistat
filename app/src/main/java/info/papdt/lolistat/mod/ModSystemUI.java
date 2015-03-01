@@ -9,6 +9,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.XC_MethodHook;
 
+import info.papdt.lolistat.support.Settings;
 import static info.papdt.lolistat.BuildConfig.DEBUG;
 
 public class ModSystemUI
@@ -19,6 +20,8 @@ public class ModSystemUI
 		if (DEBUG) {
 			XposedBridge.log(TAG + "Loading SystemUI");
 		}
+		
+		if (!Settings.getBooleanStatic(Settings.PREF_TINT_ICONS, true)) return;
 		
 		// Thanks to MohanmmadAG
 		final Class<?> iconView = XposedHelpers.findClass("com.android.systemui.statusbar.StatusBarIconView", loader);
