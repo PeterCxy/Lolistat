@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Lolistat</string>
+
+    <!-- Settings -->
+    <string name="tint_navigation">Färbe  Navigationsleiste</string>
+    <string name="tint_icons">Färbe Benachrichtiungsicons</string>
+
+</resources>
