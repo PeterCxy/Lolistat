@@ -1,9 +1,11 @@
 package info.papdt.lolistat.ui.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
 
 import info.papdt.lolistat.R;
 import info.papdt.lolistat.support.Settings;
@@ -40,6 +42,19 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 			mSettings.putBoolean(Settings.PREF_TINT_ICONS, Boolean.valueOf(newValue));
 		}
 		return true;
+	}
+
+	@Override
+	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+		if (preference.getKey().equals("blacklist")) {
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(getActivity(), BlackListActivity.class);
+			startActivity(i);
+			return true;
+		} else {
+			return super.onPreferenceTreeClick(preferenceScreen, preference);
+		}
 	}
 	
 }

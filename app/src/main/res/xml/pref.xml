@@ -10,4 +10,9 @@
 		android:title="@string/tint_icons"
 		android:checked="true"/>
 	
+	<Preference
+		android:key="blacklist"
+		android:title="@string/blacklist"
+		android:summary="@string/blacklist_sum"/>
+	
 </PreferenceScreen>
