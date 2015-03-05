@@ -6,5 +6,11 @@
     <!-- Settings -->
     <string name="tint_navigation">Färbe  Navigationsleiste</string>
     <string name="tint_icons">Färbe Benachrichtiungsicons</string>
+    <string name="blacklist">Blacklist</string>
+	<string name="blacklist_sum">Deaktiviere Lolistat bei gewählten Apps</string>
+	
+	<!-- Messages -->
+	<string name="plz_wait">Bitte warten...</string>
+	<string name="save">Speichern</string>
 
 </resources>
