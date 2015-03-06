@@ -119,7 +119,6 @@ public class ModLoli implements IXposedHookLoadPackage
 				if ((flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == 0) {
 					View child = decor.getChildAt(0);
 					FrameLayout layout = new FrameLayout(decor.getContext());
-					layout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 					decor.removeView(child);
 					layout.addView(child);
 					decor.addView(layout);
