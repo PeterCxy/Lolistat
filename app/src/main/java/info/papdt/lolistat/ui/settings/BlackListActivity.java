@@ -12,6 +12,9 @@ import android.widget.ListView;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.text.Collator;
 
 import info.papdt.lolistat.R;
 import info.papdt.lolistat.model.AppModel;
@@ -84,6 +87,13 @@ public class BlackListActivity extends Activity
 				app.orig = app.checked;
 				apps.add(app);
 			}
+			
+			Collections.sort(apps, new Comparator<AppModel>() {
+				@Override
+				public int compare(AppModel p1, AppModel p2) {
+					return Collator.getInstance().compare(p1.title, p2.title);
+				}
+			});
 			
 			return apps;
 		}
