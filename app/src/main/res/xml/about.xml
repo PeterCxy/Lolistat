@@ -6,6 +6,11 @@
 		android:summary="@string/developer_sum"/>
 	
 	<Preference
+		android:key="icon"
+		android:title="@string/icon"
+		android:summary="@string/icon_sum"/>
+	
+	<Preference
 		android:key="version"
 		android:title="@string/version"/>
 	

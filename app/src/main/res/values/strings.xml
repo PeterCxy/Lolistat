@@ -13,6 +13,8 @@
 	<!-- About -->
 	<string name="developer">Developer</string>
 	<string name="developer_sum">Peter Cai (@PeterCxy)</string>
+	<string name="icon">Icon</string>
+	<string name="icon_sum">The icon of this app is from Android Open Source Project licensed under Apache License 2.0</string>
 	<string name="version">Version</string>
 	<string name="source_code">Source Code</string>
 	<string name="source_code_sum">https://github.com/PeterCxy/Lolistat</string>
