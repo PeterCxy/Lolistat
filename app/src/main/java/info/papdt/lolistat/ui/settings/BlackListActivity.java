@@ -36,6 +36,7 @@ public class BlackListActivity extends Activity
 		mSettings = Settings.getInstance(this);
 		
 		mList = (ListView) findViewById(R.id.list);
+		mList.setFastScrollEnabled(true);
 		
 		new LoadAppTask().execute();
 	}
