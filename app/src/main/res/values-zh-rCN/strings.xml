@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">萝莉状态栏</string>
+
+	<!-- Settings -->
+	<string name="tint_navigation">导航栏变色</string>
+	<string name="tint_icons">状态栏图标洗白白</string>
+	<string name="blacklist">黑名单</string>
+	<string name="blacklist_sum">对某些app禁用萝莉状态栏</string>
+	<string name="about">关于</string>
+
+	<!-- About -->
+	<string name="developer">开发者</string>
+	<string name="developer_sum">Peter Cai (@颠倒的阿卡林型次元)</string>
+	<string name="icon">图标</string>
+	<string name="icon_sum">图标来自 Android Open Source Project 协议为 Apache License 2.0</string>
+	<string name="version">版本</string>
+	<string name="source_code">源代码</string>
+	<string name="source_code_sum">https://github.com/PeterCxy/Lolistat</string>
+	<string name="license">开源协议</string>
+	<string name="license_sum">本模块在 GNU GPLv3 授权下开放源代码.\n您可以在源代码中获取协议文本.</string>
+	<string name="donation">捐赠</string>
+	<string name="donation_sum">如果你喜欢这个模块并且希望捐赠我以支持我的开发, 您可以通过\nPaypal: xqsx43cxy@126.com\nAlipay: xqsx43cxy@gmail.com\n捐赠给我. 点击这里可以直接进入PayPal的捐赠页面.</string>
+	<string name="email">电子邮件</string>
+	<string name="email_sum">peter@typeblog.net\n请不要给"捐赠"里面的邮箱地址发邮件.</string>
+
+	<!-- Messages -->
+	<string name="plz_wait">请稍候...</string>
+	<string name="save">保存</string>
+
+</resources>
