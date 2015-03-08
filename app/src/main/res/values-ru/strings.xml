@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tint_navigation">Оттенок панели навигации </string>
+    <string name="tint_icons">Оттенок иконок уведомлений</string>
+    <string name="blacklist">Черный список</string>
+    <string name="blacklist_sum">Отключить Lolistat для конкретных приложений</string>
+    <string name="about">О приложении</string>
+    <string name="developer">Разработчик</string>
+    <string name="developer_sum">Peter Cai (@PeterCxy)</string>
+    <string name="icon">Иконка</string>
+    <string name="icon_sum">Иконка приложения из Android Open Source Project под лицензией Apache License 2.0</string>
+    <string name="version">Версия</string>
+    <string name="source_code">Исходный код</string>
+    <string name="license">Лицензия</string>
+    <string name="license_sum">"Исходный код под лицензией GNU GPLv3.
+Вы можете получить копию лицензии по ссылке на исходный код"</string>
+    <string name="donation">Пожертвовать</string>
+    <string name="donation_sum">"Если вам понравился этот модуль, и вы хотели бы поддержать его развитие, а также других модулей, написанных мной, можете пожертвовать через
+Paypal: xqsx43cxy@126.com
+Alipay: xqsx43cxy@gmail.com
+Нажмите здесь, чтобы пожертвовать через систему Paypal"</string>
+    <string name="email_sum">"peter@typeblog.net
+Пожалуйста, не пишите на e-mail в разделе Donate."</string>
+    <string name="plz_wait">Пожалуйста, подождите...</string>
+    <string name="save">Сохранить</string>
+</resources>
