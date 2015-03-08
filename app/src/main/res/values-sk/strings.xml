@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Lolistat</string>
+	
+	<!-- Settings -->
+	<string name="tint_navigation">Zafarbiť navigačnú lištu</string>
+	<string name="tint_icons">Zafarbiť ikony upozornení</string>
+	<string name="blacklist">Čierna listina</string>
+	<string name="blacklist_sum">Zakáže Lolistat pre vybrané aplikácie</string>
+	<string name="about">O aplikácii</string>
+	
+	<!-- About -->
+	<string name="developer">Vývojár</string>
+	<string name="developer_sum">Peter Cai (@PeterCxy)</string>
+	<string name="icon">Ikona</string>
+	<string name="icon_sum">Ikona tejto aplikácie je z Android Open Source Project s licenciou Apache License 2.0.</string>
+	<string name="version">Verzia</string>
+	<string name="source_code">Zdrojový kód</string>
+	<string name="source_code_sum">https://github.com/PeterCxy/Lolistat</string>
+	<string name="license">Licencia</string>
+	<string name="license_sum">Zdrojový kód je licencovaný pod GNU GPLv3.\nMôžete získať kópiu licencie cez odkaz "Zdrojový kód".</string>
+	<string name="donation">Podporiť</string>
+	<string name="donation_sum">Ak sa vám páči tento modul a chceli by ste podporiť vývoj tohto a ďalších mojich modulov, môžete poslať finančný dar cez\nPaypal: xqsx43cxy@126.com\nAlipay: xqsx43cxy@gmail.com\nKliknite sem pre presmerovanie na stránku PayPal.</string>
+	<string name="email">E-mail</string>
+	<string name="email_sum">peter@typeblog.net\nProsím, neposielajte e-mail na adresy v časti "Podporiť".</string>
+	
+	<!-- Messages -->
+	<string name="plz_wait">Prosím, počkajte...</string>
+	<string name="save">Uložiť</string>
+
+</resources>
