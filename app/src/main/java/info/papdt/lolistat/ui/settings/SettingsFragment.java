@@ -46,15 +46,23 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
 	@Override
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-		if (preference.getKey().equals("blacklist")) {
-			Intent i = new Intent();
-			i.setAction(Intent.ACTION_MAIN);
-			i.setClass(getActivity(), BlackListActivity.class);
-			startActivity(i);
-			return true;
-		} else {
-			return super.onPreferenceTreeClick(preferenceScreen, preference);
+		String key = preference.getKey();
+		Intent i = new Intent();
+		switch (key) {
+			case "blacklist":
+				i.setAction(Intent.ACTION_MAIN);
+				i.setClass(getActivity(), BlackListActivity.class);
+				break;
+			case "about":
+				i.setAction(SettingsActivity.INTENT_ABOUT);
+				i.setClass(getActivity(), SettingsActivity.class);
+				break;
+			default:
+				return super.onPreferenceTreeClick(preferenceScreen, preference);
 		}
+		
+		startActivity(i);
+		return true;
 	}
 	
 }

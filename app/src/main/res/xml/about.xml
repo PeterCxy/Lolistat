@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<Preference
+		android:key="developer"
+		android:title="@string/developer"
+		android:summary="@string/developer_sum"/>
+	
+	<Preference
+		android:key="version"
+		android:title="@string/version"/>
+	
+	<Preference
+		android:key="source_code"
+		android:title="@string/source_code"
+		android:summary="@string/source_code_sum"/>
+	
+	<Preference
+		android:key="license"
+		android:title="@string/license"
+		android:summary="@string/license_sum"/>
+	
+	<Preference
+		android:key="donation"
+		android:title="@string/donation"
+		android:summary="@string/donation_sum"/>
+	
+	<Preference
+		android:key="email"
+		android:title="@string/email"
+		android:summary="@string/email_sum"/>
+</PreferenceScreen>

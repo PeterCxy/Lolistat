@@ -15,4 +15,8 @@
 		android:title="@string/blacklist"
 		android:summary="@string/blacklist_sum"/>
 	
+	<Preference
+		android:key="about"
+		android:title="@string/about"/>
+	
 </PreferenceScreen>
