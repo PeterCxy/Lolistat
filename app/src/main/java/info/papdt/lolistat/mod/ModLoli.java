@@ -82,6 +82,9 @@ public class ModLoli implements IXposedHookLoadPackage, IXposedHookZygoteInit
 					
 				String packageName = activity.getApplicationInfo().packageName;
 				
+				if (packageName.equals("com.android.systemui"))
+					return;
+				
 				Settings.reload();
 				
 				// Ignore if blacklisted
