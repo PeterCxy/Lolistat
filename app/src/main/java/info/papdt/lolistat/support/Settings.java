@@ -12,14 +12,18 @@ public class Settings
 	public static final String PREF_TINT_ICONS = "tint_icons";
 	
 	private static final String PREF = "pref";
-	private static SharedPreferences sPref;
+	private static XSharedPreferences sPref;
 	private static Settings sInstance = null;
 	
 	private SharedPreferences mPref;
 	
 	public static void init() {
 		sPref = new XSharedPreferences("info.papdt.lolistat", PREF);
-		((XSharedPreferences) sPref).makeWorldReadable();
+		sPref.makeWorldReadable();
+	}
+	
+	public static void reload() {
+		sPref.reload();
 	}
 	
 	public static Settings getInstance(Context context) {
