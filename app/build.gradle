@@ -8,8 +8,8 @@ android {
         applicationId "info.papdt.lolistat"
         minSdkVersion 21
         targetSdkVersion 21
-        versionCode 5
-        versionName "1.1.0_r2"
+        versionCode 6
+        versionName "1.1.1"
     }
     buildTypes {
         release {
