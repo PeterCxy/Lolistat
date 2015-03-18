@@ -28,7 +28,10 @@ public class ModNavigationBar
 		XposedHelpers.findAndHookMethod("com.android.internal.policy.impl.PhoneWindow", loader, "setStatusBarColor", int.class, new XC_MethodHook() {
 			@Override
 			protected void afterHookedMethod(XC_MethodHook.MethodHookParam mhparams) throws Throwable {
-				((Window) mhparams.thisObject).setNavigationBarColor(Integer.valueOf(mhparams.args[0]));
+				int color = Integer.valueOf(mhparams.args[0]);
+				
+				if (color != 0)
+					((Window) mhparams.thisObject).setNavigationBarColor(color);
 			}
 		});
 		
