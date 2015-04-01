@@ -12,9 +12,9 @@ import info.papdt.lolistat.support.Settings;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener
 {
-	
+
 	private Settings mSettings;
-	
+
 	private CheckBoxPreference mTintNav;
 	private CheckBoxPreference mTintIcons;
 
@@ -22,13 +22,13 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.pref);
-		
+
 		mSettings = Settings.getInstance(getActivity());
-		
+
 		mTintNav = (CheckBoxPreference) findPreference(Settings.PREF_TINT_NAVIGATION);
 		mTintNav.setChecked(mSettings.getBoolean(Settings.PREF_TINT_NAVIGATION, true));
 		mTintNav.setOnPreferenceChangeListener(this);
-		
+
 		mTintIcons = (CheckBoxPreference) findPreference(Settings.PREF_TINT_ICONS);
 		mTintIcons.setChecked(mSettings.getBoolean(Settings.PREF_TINT_ICONS, true));
 		mTintIcons.setOnPreferenceChangeListener(this);
@@ -37,9 +37,9 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 	@Override
 	public boolean onPreferenceChange(Preference pref, Object newValue) {
 		if (pref == mTintNav) {
-			mSettings.putBoolean(Settings.PREF_TINT_NAVIGATION, Boolean.valueOf(newValue));
+			mSettings.putBoolean(Settings.PREF_TINT_NAVIGATION, Boolean.valueOf(newValue.toString()));
 		} else if (pref == mTintIcons) {
-			mSettings.putBoolean(Settings.PREF_TINT_ICONS, Boolean.valueOf(newValue));
+			mSettings.putBoolean(Settings.PREF_TINT_ICONS, Boolean.valueOf(newValue.toString()));
 		}
 		return true;
 	}
@@ -60,9 +60,9 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 			default:
 				return super.onPreferenceTreeClick(preferenceScreen, preference);
 		}
-		
+
 		startActivity(i);
 		return true;
 	}
-	
+
 }
