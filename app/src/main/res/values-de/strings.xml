@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Lolistat</string>
+    	<string name="app_name">Lolistat</string>
 
-    <!-- Settings -->
-    <string name="tint_navigation">Färbe  Navigationsleiste</string>
-    <string name="tint_icons">Färbe Benachrichtiungsicons</string>
-    <string name="blacklist">Blacklist</string>
-	<string name="blacklist_sum">Deaktiviere Lolistat bei gewählten Apps</string>
+	 <!-- Settings -->
+	<string name="tint_navigation">Färbe  Navigationsleiste</string>
+	<string name="tint_icons">Färbe Benachrichtiungsicons</string>
+	<string name="blacklist">Blacklist</string>
+    	<string name="blacklist_sum">Deaktiviere Lolistat bei gewählten Apps</string>
+    	<string name="about">Über</string>
 	
-	<!-- Messages -->
-	<string name="plz_wait">Bitte warten...</string>
-	<string name="save">Speichern</string>
+	<!-- About -->
+	<string name="developer">Entwickler</string>
+	<string name="developer_sum">Peter Cai (@PeterCxy)</string>
+	<string name="icon">Icon</string>
+	<string name="icon_sum">Das Icon dieser App stammt vom Android Open Source Project und ist unter der Apache License 2.0 lizenziert.</string>
+	<string name="version">Version</string>
+	<string name="source_code">Quellcode</string>
+	<string name="source_code_sum">https://github.com/PeterCxy/Lolistat</string>
+	<string name="license">Lizenz</string>
+	<string name="license_sum">Quellcode lizenziert unter der GNU GPLv3 Lizenz.\nEine Kopie dieser Lizenz ist unter dem Link "Quellcode" aufrufbar.</string>
+	<string name="donation">Spenden</string>
+	<string name="donation_sum">Wenn dir dieses Modul gefällt und du die Entwicklung dieses und anderer Module, die von mir entwickelt wurden, unterstützen möchtest, kannst du mir etwas über nachfolgende Dienste spenden\nPaypal: xqsx43cxy@126.com\nAlipay: xqsx43cxy@gmail.com\nKlicke hier, um direkt über PayPal zu spenden</string>
+	<string name="email">E-Mail</string>
+	<string name="email_sum">peter@typeblog.net\nBitte sende mir keine Nachricht an die E-Mail Adresse, welche unter "Spenden" angezeigt wird.</string>
+	
+    	<!-- Messages -->
+    	<string name="plz_wait">Bitte warten...</string>
+    	<string name="save">Speichern</string>
 
 </resources>
