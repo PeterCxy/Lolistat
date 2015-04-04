@@ -1,0 +1,10 @@
+<menu
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<item
+		android:id="@+id/reset"
+		android:title="@string/reset"
+		android:icon="@drawable/ic_settings_backup_restore"
+		android:showAsAction="always"/>
+	
+</menu>

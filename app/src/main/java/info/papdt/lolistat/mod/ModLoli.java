@@ -38,13 +38,12 @@ public class ModLoli implements IXposedHookLoadPackage, IXposedHookZygoteInit
 	private static final String TAG = ModLoli.class.getSimpleName() + ":";
 	private static final long MIN_BREAK = 500;
 	private static int STATUS_HEIGHT = 0;
+	private Settings mSettings;
 
 	@Override
 	public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-		Settings.init();
-		// If blacklisted
-		if (Settings.getBooleanStatic(lpparam.packageName, false))
-			return;
+		if (mSettings == null)
+			mSettings = Settings.getInstance(null);
 		
 		if (lpparam.packageName.equals("com.android.systemui")) {
 			ModSystemUI.hookSystemUI(lpparam.classLoader);
@@ -54,7 +53,11 @@ public class ModLoli implements IXposedHookLoadPackage, IXposedHookZygoteInit
 	
 	@Override
 	public void initZygote(IXposedHookZygoteInit.StartupParam param) throws Throwable {
-		Settings.init();
+		
+		if (mSettings == null) {
+			mSettings = Settings.getInstance(null);
+		}
+		
 		ModNavigationBar.hookNavigationBar(null);
 		
 		final Class<?> internalStyleable = XposedHelpers.findClass("com.android.internal.R.styleable", null);
@@ -81,14 +84,15 @@ public class ModLoli implements IXposedHookLoadPackage, IXposedHookZygoteInit
 					return;
 					
 				String packageName = activity.getApplicationInfo().packageName;
+				String className = activity.getClass().getName();
 				
 				if (packageName.equals("com.android.systemui"))
 					return;
 				
-				Settings.reload();
+				mSettings.reload();
 				
 				// Ignore if blacklisted
-				if (Settings.getBooleanStatic(packageName, false))
+				if (!mSettings.getBoolean(packageName, className, Settings.ENABLED, true))
 					return;
 				
 				// Ignore if launcher

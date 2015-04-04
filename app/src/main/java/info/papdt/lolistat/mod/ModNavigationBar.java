@@ -16,8 +16,9 @@ import info.papdt.lolistat.support.Settings;
 public class ModNavigationBar
 {
 	public static void hookNavigationBar(ClassLoader loader) throws Throwable {
-
-		if (!Settings.getBooleanStatic(Settings.PREF_TINT_NAVIGATION, true)) return;
+		Settings settings = Settings.getInstance(null);
+		
+		if (!settings.getBoolean("global", "global", Settings.TINT_NAVIGATION, true)) return;
 
 		final Class<?> internalStyleable = XposedHelpers.findClass("com.android.internal.R.styleable", loader);
 		final Field internalThemeField = XposedHelpers.findField(internalStyleable, "Theme");

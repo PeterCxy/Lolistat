@@ -1,32 +1,33 @@
 package info.papdt.lolistat.ui.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import info.papdt.lolistat.R;
-import info.papdt.lolistat.model.AppModel;
+import info.papdt.lolistat.ui.model.AppModel;
+import static info.papdt.lolistat.ui.utils.UiUtility.*;
 
-public class AppAdapter extends BaseAdapter
+public class AppAdapter extends BaseAdapter implements Filterable
 {
 	private List<AppModel> mList;
+	private List<AppModel> mFullList;
 	private LayoutInflater mInflater;
 	
 	public AppAdapter(Context context, List<AppModel> list) {
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mList = list;
-	}
-	
-	public List<AppModel> getList() {
-		return mList;
+		mFullList = list;
+		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -35,54 +36,94 @@ public class AppAdapter extends BaseAdapter
 	}
 
 	@Override
-	public Object getItem(int pos) {
-		return mList.get(pos);
+	public AppModel getItem(int position) {
+		return mList.get(position);
 	}
 
 	@Override
-	public long getItemId(int pos) {
-		return pos;
+	public long getItemId(int position) {
+		return position;
 	}
 
 	@Override
-	public View getView(int pos, View convertView, ViewGroup parent) {
-		if (pos >= getCount())
-			return null;
+	public View getView(final int position, View convertView, ViewGroup container) {
+		if (position >= getCount())
+			return convertView;
 		
 		View v = convertView;
-		if (v == null) {
-			v = mInflater.inflate(R.layout.list_item, parent, false);
+		if (v == null)
+			v = mInflater.inflate(R.layout.app, container, false);
+		
+		final AppModel app = mList.get(position);
+		
+		final ImageView icon = $(v, R.id.app_icon);
+		icon.setTag(position);
+		Drawable iconDrawable = app.icon != null ? app.icon.get() : null;
+		if (iconDrawable != null) {
+			icon.setImageDrawable(iconDrawable);
+		} else {
+			icon.setImageDrawable(null);
+			
+			// Update recycled drawable
+			new Thread() {
+				@Override
+				public void run() {
+					app.refreshIcon();
+					if (icon.getTag().equals(position)) {
+						icon.post(new Runnable() {
+							@Override
+							public void run() {
+								if (app.icon != null)
+									icon.setImageDrawable(app.icon.get());
+							}
+						});
+					}
+				}
+			}.start();
 		}
 		
-		final AppModel app = mList.get(pos);
+		TextView title = $(v, R.id.app_name);
+		title.setText(app.title);
 		
-		ImageView icon = (ImageView) v.findViewById(R.id.icon);
-		icon.setImageDrawable(app.icon);
-		
-		TextView text = (TextView) v.findViewById(R.id.name);
-		text.setText(app.title);
-		
-		final CheckBox check = (CheckBox) v.findViewById(R.id.check);
-		check.setOnCheckedChangeListener(null);
-		v.setOnClickListener(null);
-		check.setChecked(app.checked);
-		
-		check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton button, boolean checked) {
-				app.checked = checked;
-			}
-		});
-		
-		v.setClickable(true);
-		v.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				check.setChecked(!check.isChecked());
-			}
-		});
+		TextView pkg = $(v, R.id.app_pkg);
+		pkg.setText(app.packageName);
 		
 		return v;
+	}
+
+	@Override
+	public Filter getFilter() {
+		return new Filter() {
+			@Override
+			protected FilterResults performFiltering(CharSequence constraint) {
+				String query = constraint.toString().toLowerCase();
+				List<AppModel> filtered = new ArrayList<AppModel>();
+				
+				if (query.equals("")) {
+					filtered = mFullList;
+				} else {
+					for (AppModel app : mFullList) {
+						if (app.title.toLowerCase().contains(query)
+							|| app.packageName.toLowerCase().contains(query)) 
+							
+							filtered.add(app);
+					}
+				}
+				
+				FilterResults result = new FilterResults();
+				result.count = filtered.size();
+				result.values = filtered;
+				
+				return result;
+			}
+
+			@Override
+			@SuppressWarnings("unchecked")
+			protected void publishResults(CharSequence constraint, FilterResults result) {
+				mList = (List<AppModel>) result.values;
+				notifyDataSetChanged();
+			}
+		};
 	}
 
 }

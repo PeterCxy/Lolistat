@@ -4,10 +4,12 @@
     <string name="app_name">Lolistat</string>
 	
 	<!-- Settings -->
+	<string name="global">Global (Can be overridden)</string>
+	<string name="global_short">Global</string>
+	<string name="search">Search</string>
+	<string name="enabled">Enabled</string>
 	<string name="tint_navigation">Tint Navigation Bar</string>
 	<string name="tint_icons">Tint Notification Icons</string>
-	<string name="blacklist">Blacklist</string>
-	<string name="blacklist_sum">Disable Lolistat on specific apps</string>
 	<string name="about">About</string>
 	
 	<!-- About -->
@@ -28,5 +30,7 @@
 	<!-- Messages -->
 	<string name="plz_wait">Please wait...</string>
 	<string name="save">Save</string>
+	<string name="reset">Reset</string>
+	<string name="reset_confirm">Confirm reset?</string>
 
 </resources>

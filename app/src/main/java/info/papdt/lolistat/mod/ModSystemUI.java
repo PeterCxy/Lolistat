@@ -21,7 +21,9 @@ public class ModSystemUI
 			XposedBridge.log(TAG + "Loading SystemUI");
 		}
 		
-		if (!Settings.getBooleanStatic(Settings.PREF_TINT_ICONS, true)) return;
+		Settings settings = Settings.getInstance(null);
+		if (!settings.getBoolean("global", "global", Settings.TINT_ICONS, false))
+			return;
 		
 		// Thanks to MohanmmadAG
 		final Class<?> iconView = XposedHelpers.findClass("com.android.systemui.statusbar.StatusBarIconView", loader);
