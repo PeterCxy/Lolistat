@@ -15,6 +15,7 @@ public abstract class Settings
 	public static final String ENABLED = "enabled";
 	public static final String TINT_NAVIGATION = "tint_navigation";
 	public static final String TINT_ICONS = "tint_icons";
+	public static final String CUSTOM_COLOR = "custom_color";
 	
 	private static final String PREF = "pref";
 	private static final String GLOBAL = "global";
@@ -23,7 +24,8 @@ public abstract class Settings
 	private static final String[] KEYS = {
 		ENABLED,
 		TINT_NAVIGATION,
-		TINT_ICONS
+		TINT_ICONS,
+		CUSTOM_COLOR
 	};
 
 	private static XSettings sXSettings;

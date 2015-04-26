@@ -95,8 +95,17 @@ public class ModLoli implements IXposedHookLoadPackage, IXposedHookZygoteInit
 				if (!mSettings.getBoolean(packageName, className, Settings.ENABLED, true))
 					return;
 				
+				// custom color
+				int custom = mSettings.getInt(packageName, className, Settings.CUSTOM_COLOR, 0);
+				
+				if (custom != 0)
+					activity.getWindow().setStatusBarColor(custom);
+				
 				// Ignore if launcher
 				if (Utility.isLauncher(activity, packageName)) return;
+				
+				// Ignore if custom color defined
+				if (custom != 0) return;
 				
 				// Ignore if have defined colorPrimaryDark already
 				TypedArray a = activity.getTheme().obtainStyledAttributes(theme);

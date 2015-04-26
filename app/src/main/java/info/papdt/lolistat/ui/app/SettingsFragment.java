@@ -2,8 +2,10 @@ package info.papdt.lolistat.ui.app;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Build;
 import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.SwitchPreference;
 import android.view.Menu;
@@ -24,6 +26,7 @@ public class SettingsFragment extends BasePreferenceFragment
 	
 	private SwitchPreference mEnable;
 	private CheckBoxPreference mNav, mStatus;
+	private EditTextPreference mColor;
 	
 	private String mPackageName, mClassName;
 
@@ -42,12 +45,13 @@ public class SettingsFragment extends BasePreferenceFragment
 		mEnable = $(this, Settings.ENABLED);
 		mNav = $(this, Settings.TINT_NAVIGATION);
 		mStatus = $(this, Settings.TINT_ICONS);
+		mColor = $(this, Settings.CUSTOM_COLOR);
 		
 		// Default values
 		reload();
 		
 		// Bind
-		$$(mEnable, mNav, mStatus);
+		$$(mEnable, mNav, mStatus, mColor);
 	}
 
 	@Override
@@ -61,6 +65,9 @@ public class SettingsFragment extends BasePreferenceFragment
 			return true;
 		} else if (preference == mStatus) {
 			putBoolean(Settings.TINT_ICONS, (Boolean) newValue);
+			return true;
+		} else if (preference == mColor) {
+			putInt(Settings.CUSTOM_COLOR, Color.parseColor(newValue.toString()));
 			return true;
 		} else {
 			return false;
@@ -98,11 +105,13 @@ public class SettingsFragment extends BasePreferenceFragment
 	
 	private void reload() {
 		mEnable.setChecked(getBoolean(Settings.ENABLED, true));
+		mColor.setText(String.format("#%06X", 0xFFFFFF & getInt(Settings.CUSTOM_COLOR, 0)));
 
 		if (!mPackageName.equals("global") || !mClassName.equals("global")) {
 			getPreferenceScreen().removePreference(mNav);
 			getPreferenceScreen().removePreference(mStatus);
 		} else {
+			getPreferenceScreen().removePreference(mColor);
 			mNav.setChecked(getBoolean(Settings.TINT_NAVIGATION, true));
 			mStatus.setChecked(getBoolean(Settings.TINT_ICONS, false));
 		}

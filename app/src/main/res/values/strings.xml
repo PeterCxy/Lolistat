@@ -10,6 +10,7 @@
 	<string name="enabled">Enabled</string>
 	<string name="tint_navigation">Tint Navigation Bar</string>
 	<string name="tint_icons">Tint Notification Icons</string>
+	<string name="custom_color">Custom status bar color</string>
 	<string name="about">About</string>
 	
 	<!-- About -->
